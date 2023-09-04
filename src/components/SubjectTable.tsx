@@ -43,6 +43,15 @@ export default function SubjectTable({
     setSubjects(newSubjects);
   };
 
+  const onLastColKeyDown = (index: number, e: any) => {
+    if (e.key === "Tab") {
+      if (index === subjects.length - 1) {
+        e.preventDefault();
+        addSubject();
+      }
+    }
+  };
+
   return (
     <div className="flex-grow">
       <div className="relative w-full">
@@ -102,6 +111,7 @@ export default function SubjectTable({
                         placeholder="e.g. 75"
                         className="w-full bg-transparent outline-none py-1"
                         value={subject.mark}
+                        onKeyDown={(e) => onLastColKeyDown(i, e)}
                         onChange={(e) => {
                           const value = e.target.value;
                           if (value === "" || /^-?\d+$/.test(value)) {
