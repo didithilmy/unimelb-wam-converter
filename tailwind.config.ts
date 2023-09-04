@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "rgb(var(--background))",
+        bg: "rgb(245, 250, 251)",
       },
       fontFamily: {
         serif: ["DM Serif Text", ...defaultTheme.fontFamily.serif],

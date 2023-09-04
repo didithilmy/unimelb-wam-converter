@@ -1,16 +1,21 @@
 "use client";
 
 import { Subject } from "@/types";
-import { useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import getGradeFromMark from "@/grades";
 
-export default function SubjectTable() {
-  const [subjects, setSubjects] = useState<Subject[]>([
-    { name: "", credit: "", mark: "" },
-  ]);
+interface MyProps {
+  title: string;
+  subjects: Subject[];
+  onSubjectsChange: (subjects: Subject[]) => void;
+}
 
+export default function SubjectTable({
+  subjects,
+  title,
+  onSubjectsChange: setSubjects,
+}: MyProps) {
   const addSubject = () => {
     const newSubject: Subject = {
       name: "",
@@ -39,9 +44,9 @@ export default function SubjectTable() {
   return (
     <div className="flex-grow">
       <div className="relative w-full">
-        <div className="sticky top-0 border-b-[1px] border-b-gray-150 bg-bg">
+        <div className="sticky top-0 border-b-[1px] border-b-gray-150 bg-bg z-50">
           <div className="max-w-4xl m-auto px-3">
-            <div className="font-serif text-lg py-3">Term 1</div>
+            <div className="font-serif text-lg py-3">{title}</div>
             <div className="grid grid-cols-12 gap-3 text-sm font-heading text-gray-600">
               <div className="col-span-6 py-2">Subject</div>
               <div className="col-span-2 py-2 px-2">Credit</div>

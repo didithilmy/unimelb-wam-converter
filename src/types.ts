@@ -3,3 +3,7 @@ export interface Subject {
   credit: string;
   mark: string;
 }
+
+export interface Term {
+  subjects: Subject[];
+}
