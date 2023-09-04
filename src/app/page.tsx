@@ -76,7 +76,7 @@ export default function Home() {
           {gpa !== undefined && (
             <>
               <div>
-                Your GPA is <b>{(Math.round(gpa * 100) / 100).toFixed(2)}</b>
+                Your GPA is <b>{gpa.toFixed(2)}</b>
               </div>
               <Link href="/pdf">
                 <button className="rounded px-3 py-2 text-white bg-sky-900">

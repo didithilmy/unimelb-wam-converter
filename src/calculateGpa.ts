@@ -21,5 +21,5 @@ export default function calculateGpa(terms: Term[]) {
     return undefined;
   }
 
-  return sum / creditSum;
+  return Math.round((sum / creditSum) * 100) / 100;
 }
