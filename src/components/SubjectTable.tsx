@@ -3,6 +3,8 @@
 import { Subject } from "@/types";
 import { useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import getGradeFromMark from "@/grades";
 
 export default function SubjectTable() {
   const [subjects, setSubjects] = useState<Subject[]>([
@@ -17,6 +19,11 @@ export default function SubjectTable() {
     };
 
     setSubjects([...subjects, newSubject]);
+  };
+
+  const deleteSubject = (index: number) => {
+    const newSubjects = subjects.filter((a, i) => i !== index);
+    setSubjects(newSubjects);
   };
 
   const updateSubjectField = (
@@ -46,15 +53,21 @@ export default function SubjectTable() {
         <div className="divide-y">
           {subjects.map((subject, i) => {
             return (
-              <div key={i}>
+              <div key={i} className="group">
                 <div className="m-auto max-w-4xl px-3">
                   <div className="grid grid-cols-12 gap-3 text-sm font-sans">
-                    <div className="col-span-6 py-2">
+                    <div className="col-span-6 py-2 relative">
+                      <XMarkIcon
+                        className="group-hover:inline hidden text-red-700 absolute left-[-28px] top-[14px] w-4 cursor-pointer"
+                        title="Delete subject"
+                        onClick={() => deleteSubject(i)}
+                      />
                       <input
                         type="text"
                         placeholder="Subject name"
                         className="w-full bg-transparent outline-none py-1"
                         value={subject.name}
+                        autoFocus
                         onChange={(e) =>
                           updateSubjectField(i, "name", e.target.value)
                         }
@@ -77,12 +90,19 @@ export default function SubjectTable() {
                         placeholder="e.g. 75"
                         className="w-full bg-transparent outline-none py-1"
                         value={subject.mark}
-                        onChange={(e) =>
-                          updateSubjectField(i, "mark", e.target.value)
-                        }
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === "" || /^-?\d+$/.test(value)) {
+                            updateSubjectField(i, "mark", value);
+                          }
+                        }}
                       />
                     </div>
-                    <div className="col-span-2 py-3 px-2">H1</div>
+                    <div className="col-span-2 py-3 px-2">
+                      {subject.mark !== ""
+                        ? getGradeFromMark(parseInt(subject.mark))
+                        : ""}
+                    </div>
                   </div>
                 </div>
               </div>
