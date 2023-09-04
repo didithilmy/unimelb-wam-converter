@@ -5,6 +5,7 @@ import { Subject, Term } from "@/types";
 import { useEffect, useMemo, useState } from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import calculateGpa from "@/calculateGpa";
+import Link from "next/link";
 
 export default function Home() {
   const [terms, setTerms] = useState<Term[]>(() => {
@@ -73,13 +74,17 @@ export default function Home() {
             See how GPA is calculated
           </div>
           {gpa !== undefined && (
-            <div>
-              Your GPA is <b>{(Math.round(gpa * 100) / 100).toFixed(2)}</b>
-            </div>
+            <>
+              <div>
+                Your GPA is <b>{(Math.round(gpa * 100) / 100).toFixed(2)}</b>
+              </div>
+              <Link href="/pdf">
+                <button className="rounded px-3 py-2 text-white bg-sky-900">
+                  Save as PDF
+                </button>
+              </Link>
+            </>
           )}
-          <button className="rounded px-3 py-2 text-white bg-sky-900">
-            Save as PDF
-          </button>
         </div>
       </div>
     </div>
