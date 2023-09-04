@@ -58,7 +58,7 @@ export default function SubjectTable({
         <div className="sticky top-0 border-b-[1px] border-b-gray-150 bg-bg z-50 group">
           <div className="max-w-4xl m-auto px-3 relative">
             <XMarkIcon
-              className="group-hover:inline hidden text-red-700 absolute left-[-24px] top-[14px] w-6 cursor-pointer"
+              className="group-hover:inline hidden text-red-700 absolute w-6 cursor-pointer top-[14px] right-2 lg:left-[-24px]"
               title="Delete term"
               onClick={onDeleteClick}
             />
@@ -75,14 +75,14 @@ export default function SubjectTable({
           {subjects.map((subject, i) => {
             return (
               <div key={i} className="group">
-                <div className="m-auto max-w-4xl px-3">
+                <div className="m-auto max-w-4xl px-3 relative">
+                  <XMarkIcon
+                    className="group-hover:inline hidden text-red-700 absolute lg:left-[-14px] right-2 top-[14px] w-4 cursor-pointer"
+                    title="Delete subject"
+                    onClick={() => deleteSubject(i)}
+                  />
                   <div className="grid grid-cols-12 gap-3 text-sm font-sans">
-                    <div className="col-span-6 py-2 relative">
-                      <XMarkIcon
-                        className="group-hover:inline hidden text-red-700 absolute left-[-28px] top-[14px] w-4 cursor-pointer"
-                        title="Delete subject"
-                        onClick={() => deleteSubject(i)}
-                      />
+                    <div className="col-span-6 py-2">
                       <input
                         type="text"
                         placeholder="Subject name"
@@ -100,9 +100,12 @@ export default function SubjectTable({
                         placeholder="e.g. 12.5"
                         className="w-full bg-transparent outline-none py-1"
                         value={subject.credit}
-                        onChange={(e) =>
-                          updateSubjectField(i, "credit", e.target.value)
-                        }
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (value === "" || /^[\d.]+$/.test(value)) {
+                            updateSubjectField(i, "credit", value);
+                          }
+                        }}
                       />
                     </div>
                     <div className="col-span-2 py-2 px-2">

@@ -10,11 +10,15 @@ import Link from "next/link";
 export default function Home() {
   const [terms, setTerms] = useState<Term[]>(() => {
     try {
-      const dataJson = localStorage.getItem("data") ?? "[]";
-      return JSON.parse(dataJson);
-    } catch {
-      return [];
+      const dataJson = localStorage.getItem("data");
+      if (dataJson) {
+        return JSON.parse(dataJson);
+      }
+    } catch (e) {
+      console.error(e);
     }
+
+    return [{ subjects: [{ name: "", mark: "", credit: "" }] }];
   });
 
   useEffect(() => {
