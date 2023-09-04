@@ -2,12 +2,24 @@
 
 import SubjectTable from "@/components/SubjectTable";
 import { Subject, Term } from "@/types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import calculateGpa from "@/calculateGpa";
 
 export default function Home() {
-  const [terms, setTerms] = useState<Term[]>([]);
+  const [terms, setTerms] = useState<Term[]>(() => {
+    try {
+      const dataJson = localStorage.getItem("data") ?? "[]";
+      return JSON.parse(dataJson);
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(terms));
+  }, [terms]);
+
   const updateSubjects = (index: number, subjects: Subject[]) => {
     const newTerms = [...terms];
     newTerms[index].subjects = subjects;
@@ -43,6 +55,7 @@ export default function Home() {
               title={`Term ${i + 1}`}
               subjects={term.subjects}
               onSubjectsChange={(s) => updateSubjects(i, s)}
+              onDeleteClick={() => removeTerm(i)}
             />
           ))}
           <div

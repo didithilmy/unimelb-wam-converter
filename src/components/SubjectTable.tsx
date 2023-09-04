@@ -9,12 +9,14 @@ interface MyProps {
   title: string;
   subjects: Subject[];
   onSubjectsChange: (subjects: Subject[]) => void;
+  onDeleteClick?: () => void;
 }
 
 export default function SubjectTable({
   subjects,
   title,
   onSubjectsChange: setSubjects,
+  onDeleteClick,
 }: MyProps) {
   const addSubject = () => {
     const newSubject: Subject = {
@@ -44,8 +46,13 @@ export default function SubjectTable({
   return (
     <div className="flex-grow">
       <div className="relative w-full">
-        <div className="sticky top-0 border-b-[1px] border-b-gray-150 bg-bg z-50">
-          <div className="max-w-4xl m-auto px-3">
+        <div className="sticky top-0 border-b-[1px] border-b-gray-150 bg-bg z-50 group">
+          <div className="max-w-4xl m-auto px-3 relative">
+            <XMarkIcon
+              className="group-hover:inline hidden text-red-700 absolute left-[-24px] top-[14px] w-6 cursor-pointer"
+              title="Delete term"
+              onClick={onDeleteClick}
+            />
             <div className="font-serif text-lg py-3">{title}</div>
             <div className="grid grid-cols-12 gap-3 text-sm font-heading text-gray-600">
               <div className="col-span-6 py-2">Subject</div>
