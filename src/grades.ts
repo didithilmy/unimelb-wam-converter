@@ -26,3 +26,25 @@ export default function getGradeFromMark(mark?: number) {
     return Grade.N;
   }
 }
+
+export function getGradePointFromGrade(grade?: Grade) {
+  switch (grade) {
+    case Grade.H1:
+      return 4;
+    case Grade.H2A:
+      return 3.7;
+    case Grade.H2B:
+      return 3.3;
+    case Grade.H3:
+      return 3;
+    case Grade.P:
+      return 2;
+    default:
+      return 0;
+  }
+}
+
+export function getGradePointFromMark(mark?: number) {
+  const grade = getGradeFromMark(mark);
+  return getGradePointFromGrade(grade);
+}

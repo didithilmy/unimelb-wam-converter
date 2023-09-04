@@ -2,8 +2,9 @@
 
 import SubjectTable from "@/components/SubjectTable";
 import { Subject, Term } from "@/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
+import calculateGpa from "@/calculateGpa";
 
 export default function Home() {
   const [terms, setTerms] = useState<Term[]>([]);
@@ -25,6 +26,8 @@ export default function Home() {
     setTerms(terms.filter((t, i) => i !== index));
   };
 
+  const gpa = useMemo(() => calculateGpa(terms), [terms]);
+
   return (
     <div className="h-screen flex flex-col divide-y">
       <div className="flex-1 overflow-auto">
@@ -33,20 +36,22 @@ export default function Home() {
             <h1 className="text-xl font-bold font-heading">UoM WAM to GPA</h1>
           </div>
         </div>
-        {terms.map((term, i) => (
-          <SubjectTable
-            key={i}
-            title={`Term ${i + 1}`}
-            subjects={term.subjects}
-            onSubjectsChange={(s) => updateSubjects(i, s)}
-          />
-        ))}
-        <div
-          onClick={addTerm}
-          className="bg-gray-100 border-gray-200 border-[1px] text-gray-500 cursor-pointer p-4 items-center text-center max-w-4xl m-auto my-3 rounded-lg flex flex-row items-center justify-center gap-3"
-        >
-          <PlusCircleIcon width={24} />
-          Add term
+        <div className="flex flex-col gap-8">
+          {terms.map((term, i) => (
+            <SubjectTable
+              key={i}
+              title={`Term ${i + 1}`}
+              subjects={term.subjects}
+              onSubjectsChange={(s) => updateSubjects(i, s)}
+            />
+          ))}
+          <div
+            onClick={addTerm}
+            className="w-full bg-gray-100 border-gray-200 border-[1px] text-gray-500 cursor-pointer p-4 items-center text-center max-w-4xl m-auto my-3 rounded-lg flex flex-row items-center justify-center gap-3"
+          >
+            <PlusCircleIcon width={24} />
+            Add term
+          </div>
         </div>
       </div>
       <div className="bg-gray-100">
@@ -54,9 +59,11 @@ export default function Home() {
           <div className="flex-1 text-sm text-sky-700">
             See how GPA is calculated
           </div>
-          <div>
-            Your GPA is <b>3.73</b>
-          </div>
+          {gpa !== undefined && (
+            <div>
+              Your GPA is <b>{(Math.round(gpa * 100) / 100).toFixed(2)}</b>
+            </div>
+          )}
           <button className="rounded px-3 py-2 text-white bg-sky-900">
             Save as PDF
           </button>
