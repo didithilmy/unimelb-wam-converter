@@ -48,7 +48,7 @@ const MyDocument = ({ terms }: DocumentProps) => {
           const termGpa = calculateGpa([term]);
           if (termGpa === undefined) return <View />;
           return (
-            <View style={{ marginTop: 24 }}>
+            <View key={i} style={{ marginTop: 24 }}>
               <Text style={{ fontSize: 14 }}>Term {i + 1}</Text>
               <View
                 style={{
@@ -84,11 +84,12 @@ const MyDocument = ({ terms }: DocumentProps) => {
                     !isNaN(parseFloat(s.credit)) &&
                     !isNaN(parseFloat(s.mark))
                 )
-                .map((subject) => {
+                .map((subject, i) => {
                   const grade = getGradeFromMark(parseFloat(subject.mark));
                   const gradePoint = getGradePointFromGrade(grade);
                   return (
                     <View
+                      key={i}
                       style={{
                         flexDirection: "row",
                         fontSize: 11,
@@ -129,7 +130,7 @@ const MyDocument = ({ terms }: DocumentProps) => {
   );
 };
 
-export default function createPdf() {
+export default function CreatePdf() {
   const terms = useMemo(() => {
     try {
       const jsonStr = localStorage.getItem("data") ?? "[]";
