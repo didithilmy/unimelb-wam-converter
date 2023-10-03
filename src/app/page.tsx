@@ -50,7 +50,10 @@ export default function Home() {
       <div className="flex-1 overflow-auto">
         <div className="container m-auto max-w-4xl">
           <div className="py-5 px-3">
-            <h1 className="text-xl font-bold font-heading">UoM WAM to GPA</h1>
+            <div className="flex flex-row divide-x gap-4 items-center">
+              <img src="/luna.png" width={56}></img>
+              <h1 className="text-xl font-bold font-heading pl-4">UoM WAM to GPA</h1>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-8">
@@ -75,7 +78,9 @@ export default function Home() {
       <div className="bg-gray-100">
         <div className="container max-w-5xl m-auto flex flex-row items-center p-3 gap-4">
           <div className="flex-1 text-sm text-sky-700">
-            See how GPA is calculated
+            <Link href="https://wamtogpa.lpdpunimelb.com/help">
+              See how GPA is calculated
+            </Link>
           </div>
           {gpa !== undefined && (
             <>

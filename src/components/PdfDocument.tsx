@@ -8,6 +8,8 @@ import {
   Document,
   StyleSheet,
   PDFViewer,
+  Link,
+  Image,
 } from "@react-pdf/renderer";
 import { Term } from "@/types";
 import getGradeFromMark, { getGradePointFromGrade } from "@/grades";
@@ -42,6 +44,10 @@ const PdfDocument = ({ terms }: DocumentProps) => {
       <Document>
         <Page size="A4" style={styles.page}>
           <View style={{ marginBottom: 16 }}>
+            <Image
+              src="/luna.png"
+              style={{ width: 56, padding: 1, marginBottom: 8, marginLeft: 1 }}
+            />
             <Text>University of Melbourne WAM to GPA Conversion</Text>
             <Text style={{ fontSize: 11, marginTop: 8 }}>
               Created by {host} on {date}
@@ -140,9 +146,14 @@ const PdfDocument = ({ terms }: DocumentProps) => {
                 Cumulative GPA: {gpa.toFixed(2)}/4.00
               </Text>
 
-              <Text style={{ fontSize: 9, marginTop: 8 }}>
-                This is not an official WAM to GPA conversion. Please use this
-                tool wisely.
+              <Text style={{ fontSize: 9, marginTop: 8, lineHeight: 1.5 }}>
+                This tool is provided by LPDP Unimelb Association (LuNA) for
+                informational use only. For more information on how we calculate
+                the GPA conversion, visit{" "}
+                <Link src="https://wamtogpa.lpdpunimelb.com/help">
+                  wamtogpa.lpdpunimelb.com/help
+                </Link>
+                .
               </Text>
             </View>
           )}
